@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur PDF de lettres suisses</title>
+    <link rel="stylesheet" href="lettres_suisses.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <nav class="app-navbar" aria-label="Navigation principale">
+        <a class="nav-link" href="index.html">Accueil</a>
+        <a class="nav-link" href="chomage_calculator.html">Calcul Chômage</a>
+        <a class="nav-link" href="lettre_motivation.html">Lettre de motivation PDF</a>
+        <a class="nav-link active" href="lettres_suisses.html">Lettres suisses PDF</a>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1>Générateur PDF de lettres suisses</h1>
+            <p>Remplissez les champs, enregistrez les informations fixes dans la session et générez le PDF de votre lettre.</p>
+        </header>
+
+        <section class="card card-compact-config">
+            <h2>1) Informations de l’expéditeur (session)</h2>
+            <div class="actions compact-inline-actions">
+                <button id="openSenderModalBtn" class="toggle-btn-modern" type="button">Ajouter infos expéditeur</button>
+                <button id="openRecipientModalBtn" class="toggle-btn-modern" type="button">Ajouter infos destinataire</button>
+            </div>
+        </section>
+
+        <p id="sessionStatus" class="status compact-session-status" aria-live="polite"></p>
+
+        <div id="senderConfigModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="senderModalTitle">
+            <section class="modal-content card">
+                <div class="modal-header">
+                    <h2 id="senderModalTitle">Informations de l’expéditeur</h2>
+                    <button id="closeSenderModalBtn" class="secondary" type="button">Fermer</button>
+                </div>
+
+                <div class="grid two-columns">
+                    <div class="field">
+                        <label for="firstName">Prénom</label>
+                        <input id="firstName" type="text" placeholder="Votre prénom" required>
+                    </div>
+                    <div class="field">
+                        <label for="lastName">Nom</label>
+                        <input id="lastName" type="text" placeholder="Votre nom" required>
+                    </div>
+                    <div class="field">
+                        <label for="appStreet">Rue n°</label>
+                        <input id="appStreet" type="text" placeholder="Rue et numéro" required>
+                    </div>
+                    <div class="field">
+                        <label for="appNpa">NPA</label>
+                        <input id="appNpa" type="text" placeholder="NPA" required>
+                    </div>
+                    <div class="field">
+                        <label for="appCity">Ville</label>
+                        <input id="appCity" type="text" placeholder="Votre ville" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Téléphone</label>
+                        <input id="phone" type="text" placeholder="Votre numéro de téléphone" required>
+                    </div>
+                    <div class="field full-width">
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" placeholder="Votre adresse e-mail" required>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="saveSenderBtn" type="button">Enregistrer expéditeur</button>
+                    <button id="clearSessionBtn" class="secondary" type="button">Effacer la session</button>
+                </div>
+            </section>
+        </div>
+
+        <div id="recipientConfigModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="recipientModalTitle">
+            <section class="modal-content card">
+                <div class="modal-header">
+                    <h2 id="recipientModalTitle">Informations du destinataire</h2>
+                    <button id="closeRecipientModalBtn" class="secondary" type="button">Fermer</button>
+                </div>
+
+                <div class="recipient-box">
+                    <h3 class="recipient-box-title">Destinataire</h3>
+                    <div class="grid two-columns recipient-grid">
+                        <div class="field">
+                            <label for="recipientLine1">Ligne 1</label>
+                            <input id="recipientLine1" type="text" placeholder="Nom entreprise ou nom de la personne" required>
+                        </div>
+                        <div class="field">
+                            <label for="recipientLine2">Ligne 2</label>
+                            <input id="recipientLine2" type="text" placeholder="Département, poste ou autre précision">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field full-width recipient-address-field">
+                    <label for="recipientStreet">Rue n°</label>
+                    <input id="recipientStreet" type="text" placeholder="Rue et numéro">
+                </div>
+
+                <div class="grid two-columns recipient-grid recipient-address-grid">
+                    <div class="field">
+                        <label for="recipientNpa">NPA</label>
+                        <input id="recipientNpa" type="text" placeholder="NPA">
+                    </div>
+                    <div class="field">
+                        <label for="recipientCity">Ville</label>
+                        <input id="recipientCity" type="text" placeholder="Ville">
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="saveRecipientBtn" type="button">Enregistrer destinataire</button>
+                </div>
+            </section>
+        </div>
+
+        <div class="editor-layout">
+            <section class="card editor-main">
+                <div class="section-header-inline">
+                    <h2>2) Données de la lettre</h2>
+                    <div class="field section-date-field" role="group" aria-label="Date de la lettre">
+                        <input id="letterDate" type="date" required aria-label="Date de la lettre">
+                    </div>
+                </div>
+                <div class="grid two-columns">
+                    <div class="field">
+                        <label for="concerne">Concerne</label>
+                        <input id="concerne" type="text" placeholder="Ex. : Candidature spontanée / Demande d’information" required>
+                    </div>
+                </div>
+
+                <div class="field full-width aligned-top-field">
+                    <label for="letterContent">Contenu de la lettre (les sauts de ligne seront respectés)</label>
+                    <textarea id="letterContent" rows="12" placeholder="Madame, Monsieur,
+
+Je me permets de vous adresser ma candidature pour le poste de...
+
+Je vous remercie de l'attention portée à ma demande." required></textarea>
+                </div>
+
+                <div class="field full-width aligned-top-field">
+                    <label for="signatureImage">Image de signature (optionnel, non enregistrée)</label>
+                    <input id="signatureImage" type="file" accept="image/png,image/jpeg">
+                    <small class="status">Formats acceptés: PNG, JPG/JPEG. L’image sera placée au-dessus du nom.</small>
+                </div>
+
+                <div class="field full-width aligned-top-field">
+                    <label for="annexe">Contenu des annexes</label>
+                    <input id="annexe" type="text" placeholder="Ex. : CV, certificats, diplômes" required>
+                </div>
+
+                <div class="actions">
+                    <button id="generatePdfBtn" type="button">Générer le PDF</button>
+                </div>
+            </section>
+
+            <section class="card preview-card editor-preview">
+                <h2>Prévisualisation rapide</h2>
+                <pre id="preview"></pre>
+            </section>
+        </div>
+    </main>
+
+    <script src="lettres_suisses.js"></script>
+</body>
+</html>

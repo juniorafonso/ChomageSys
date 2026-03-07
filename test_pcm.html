@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PCM Calculation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-step { padding: 15px; margin: 10px 0; border: 1px solid #ddd; background: #f9f9f9; }
+        .result { font-weight: bold; color: #2196F3; }
+        .error { color: #f44336; }
+        .success { color: #4CAF50; }
+    </style>
+</head>
+<body>
+    <h1>Test PCM (Ass. Perte de Gain) Calculation</h1>
+    <div id="test-results"></div>
+    
+    <script src="translations.js"></script>
+    <script src="calculator.js"></script>
+    <script>
+        function runPCMTest() {
+            const resultsDiv = document.getElementById('test-results');
+            let html = '';
+            
+            try {
+                // Step 1: Create wizard
+                html += '<div class="test-step">Step 1: Creating wizard instance</div>';
+                const wizard = new ChomageWizard();
+                
+                // Step 2: Set basic data (simulate Step 1 of wizard)
+                html += '<div class="test-step">Step 2: Setting gain assured to CHF 5,200</div>';
+                wizard.data.gainAssured = 5200;
+                wizard.data.compensationRate = 80; // This will trigger 80% rate
+                
+                // Step 3: Set personal situation (simulate Step 2 of wizard)
+                html += '<div class="test-step">Step 3: Setting personal situation</div>';
+                wizard.data.hasChildren = true;
+                wizard.data.numChildren = 2;
+                wizard.data.hasDisabilityPension = false;
+                wizard.data.hasLossInsurance = true; // ← This is the key!
+                wizard.data.isFirstMonth = true;
+                
+                // Step 4: Set calculation parameters (simulate Step 3 of wizard)
+                html += '<div class="test-step">Step 4: Setting calculation parameters</div>';
+                wizard.data.controlledDays = 21;
+                wizard.data.waitingPeriod = 5;
+                
+                // Step 5: Calculate daily allowance
+                html += '<div class="test-step">Step 5: Calculating daily allowance</div>';
+                wizard.calculateDailyAllowance();
+                html += `<div class="result">Daily allowance: CHF ${wizard.data.dailyAllowance.toFixed(2)}</div>`;
+                
+                // Step 6: Check PCM calculation values
+                html += '<div class="test-step">Step 6: Checking PCM calculation components</div>';
+                const expectedPCM = wizard.data.gainAssured * 0.80 * 0.0375;
+                html += `<div class="result">Expected PCM: CHF ${wizard.data.gainAssured} × 80% × 3.75% = CHF ${expectedPCM.toFixed(2)}</div>`;
+                html += `<div class="result">hasLossInsurance: ${wizard.data.hasLossInsurance}</div>`;
+                
+                // Step 7: Generate final results
+                html += '<div class="test-step">Step 7: Generating final results</div>';
+                
+                // Create a temporary container for the results
+                const tempContainer = document.createElement('div');
+                tempContainer.id = 'final-results';
+                document.body.appendChild(tempContainer);
+                
+                // Create temporary radio buttons to simulate form state
+                const tempForm = document.createElement('div');
+                tempForm.innerHTML = `
+                    <input type="radio" name="loss-insurance" value="yes" checked>
+                    <input type="radio" name="loss-insurance" value="no">
+                `;
+                document.body.appendChild(tempForm);
+                
+                wizard.generateFinalResults();
+                
+                // Check if PCM appears in the generated HTML
+                const generatedHTML = tempContainer.innerHTML;
+                const hasPCMInTable = generatedHTML.includes('Ass. perte de gain (PCM)') || generatedHTML.includes('Ass. perte de gain');
+                
+                if (hasPCMInTable) {
+                    html += '<div class="success">✅ SUCCESS: PCM appears in the final table!</div>';
+                    
+                    // Extract the PCM amount from the HTML
+                    const pcmMatch = generatedHTML.match(/-CHF ([\d,]+\.[\d]+)/g);
+                    if (pcmMatch) {
+                        html += `<div class="result">PCM amounts found: ${pcmMatch.join(', ')}</div>`;
+                    }
+                } else {
+                    html += '<div class="error">❌ ERROR: PCM does NOT appear in the final table</div>';
+                }
+                
+                // Show a snippet of the generated HTML for debugging
+                html += '<div class="test-step">Generated HTML snippet (search for PCM):</div>';
+                html += `<pre style="max-height: 200px; overflow: auto; font-size: 12px;">${generatedHTML.substring(0, 2000)}...</pre>`;
+                
+                // Clean up
+                document.body.removeChild(tempContainer);
+                document.body.removeChild(tempForm);
+                
+            } catch (error) {
+                html += `<div class="error">❌ ERROR: ${error.message}</div>`;
+                console.error(error);
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        // Run test when page loads
+        window.addEventListener('load', () => {
+            setTimeout(runPCMTest, 500); // Wait a bit for everything to load
+        });
+    </script>
+</body>
+</html>

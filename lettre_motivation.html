@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur PDF de lettre de motivation</title>
+    <link rel="stylesheet" href="lettre_motivation.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <nav class="app-navbar" aria-label="Navigation principale">
+        <a class="nav-link" href="index.html">Accueil</a>
+        <a class="nav-link" href="chomage_calculator.html">Calcul Chômage</a>
+        <a class="nav-link active" href="lettre_motivation.html">Lettre de motivation PDF</a>
+        <a class="nav-link" href="lettres_suisses.html">Lettres suisses PDF</a>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1>Générateur PDF de lettre de motivation</h1>
+            <p>Remplissez les champs, enregistrez les informations fixes dans la session et générez le PDF de votre lettre.</p>
+        </header>
+
+        <section class="card card-compact-config">
+            <h2>1) Informations fixes du candidat (session)</h2>
+            <div class="actions compact-inline-actions">
+                <button id="openConfigModalBtn" type="button">Configurer les informations du candidat</button>
+            </div>
+        </section>
+
+        <p id="sessionStatus" class="status compact-session-status" aria-live="polite"></p>
+
+        <div id="applicantConfigModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="configModalTitle">
+            <section class="modal-content card">
+                <div class="modal-header">
+                    <h2 id="configModalTitle">Informations fixes du candidat</h2>
+                    <button id="closeConfigModalBtn" class="secondary" type="button">Fermer</button>
+                </div>
+
+                <div class="grid two-columns">
+                    <div class="field">
+                        <label for="firstName">Prénom</label>
+                        <input id="firstName" type="text" placeholder="Votre prénom" required>
+                    </div>
+                    <div class="field">
+                        <label for="lastName">Nom</label>
+                        <input id="lastName" type="text" placeholder="Votre nom" required>
+                    </div>
+                    <div class="field">
+                        <label for="appStreet">Rue n°</label>
+                        <input id="appStreet" type="text" placeholder="Rue et numéro" required>
+                    </div>
+                    <div class="field">
+                        <label for="appNpa">NPA</label>
+                        <input id="appNpa" type="text" placeholder="NPA" required>
+                    </div>
+                    <div class="field">
+                        <label for="appCity">Ville</label>
+                        <input id="appCity" type="text" placeholder="Votre ville" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Téléphone</label>
+                        <input id="phone" type="text" placeholder="Votre numéro de téléphone" required>
+                    </div>
+                    <div class="field full-width">
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" placeholder="Votre adresse e-mail" required>
+                    </div>
+                    <div class="field full-width">
+                        <label for="closingParagraph">Paragraphe final (enregistré dans la session)</label>
+                        <textarea id="closingParagraph" rows="3" placeholder="Dans l’attente de votre retour, je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées." required></textarea>
+                    </div>
+                    <div class="field full-width">
+                        <label for="annexe">Contenu des annexes (enregistré dans la session)</label>
+                        <input id="annexe" type="text" placeholder="Ex. : CV, certificats, diplômes" required>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="saveConfigBtn" type="button">Enregistrer la configuration dans la session</button>
+                    <button id="clearSessionBtn" class="secondary" type="button">Effacer la session</button>
+                </div>
+            </section>
+        </div>
+
+        <div class="editor-layout">
+            <section class="card editor-main">
+                <div class="section-header-inline">
+                    <h2>2) Données de la lettre</h2>
+                    <div class="field section-date-field" role="group" aria-label="Date de la lettre">
+                        <input id="letterDate" type="date" required aria-label="Date de la lettre">
+                    </div>
+                </div>
+                <div class="grid two-columns">
+                    <div class="field">
+                        <label for="companyName">Nom de l’entreprise</label>
+                        <input id="companyName" type="text" placeholder="Nom de la société" required>
+                    </div>
+                    <div class="field">
+                        <label for="jobTitle">Intitulé du poste</label>
+                        <input id="jobTitle" type="text" placeholder="Ex. : Assistant administratif" required>
+                    </div>
+                </div>
+
+                <div class="company-address-box">
+                    <div class="address-toggle-row">
+                        <h3>Adresse entreprise (optionnel)</h3>
+                        <button id="toggleCompanyAddressBtn" class="toggle-btn-modern" type="button" aria-expanded="false" aria-controls="companyAddressSection">
+                            <span id="toggleCompanyAddressText">Afficher</span>
+                            <span class="toggle-chevron" aria-hidden="true">▾</span>
+                        </button>
+                    </div>
+                    <div id="companyAddressSection" class="grid two-columns company-address-grid is-collapsed">
+                        <div class="field full-width">
+                            <label for="companyStreet">Rue n°</label>
+                            <input id="companyStreet" type="text" placeholder="Rue de l’entreprise 8">
+                        </div>
+                        <div class="field">
+                            <label for="companyNpa">NPA</label>
+                            <input id="companyNpa" type="text" placeholder="1201">
+                        </div>
+                        <div class="field">
+                            <label for="companyCity">Ville</label>
+                            <input id="companyCity" type="text" placeholder="Genève">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field full-width aligned-top-field">
+                    <label for="letterContent">Contenu de la lettre (les sauts de ligne seront respectés)</label>
+                    <textarea id="letterContent" rows="12" placeholder="Madame, Monsieur,
+
+Je me permets de vous adresser ma candidature pour le poste de...
+
+Je vous remercie de l'attention portée à ma demande." required></textarea>
+                </div>
+
+                <div class="field full-width aligned-top-field">
+                    <label for="signatureImage">Image de signature (optionnel, non enregistrée)</label>
+                    <input id="signatureImage" type="file" accept="image/png,image/jpeg">
+                    <small class="status">Formats acceptés: PNG, JPG/JPEG. L’image sera placée au-dessus du nom.</small>
+                </div>
+
+                <div class="actions">
+                    <button id="generatePdfBtn" type="button">Générer le PDF</button>
+                </div>
+            </section>
+
+            <section class="card preview-card editor-preview">
+                <h2>Prévisualisation rapide</h2>
+                <pre id="preview"></pre>
+            </section>
+        </div>
+    </main>
+
+    <script src="lettre_motivation.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Calcul des Prestations Chômage</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="app-navbar" aria-label="Navigation principale">
+        <a class="nav-link" href="index.html">Accueil</a>
+        <a class="nav-link active" href="chomage_calculator.html">Calcul Chômage</a>
+        <a class="nav-link" href="lettre_motivation.html">Lettre de motivation PDF</a>
+        <a class="nav-link" href="lettres_suisses.html">Lettres suisses PDF</a>
+    </nav>
+
+    <div class="container">
+        <div class="header-container">
+            <h1 data-i18n="title">Système de Calcul des Prestations Chômage</h1>
+            <div class="header-language-selector">
+                <label for="language-select" data-i18n="language">Langue:</label>
+                <select id="language-select" onchange="changeLanguage(this.value)">
+                    <!-- Options serão inseridas pelo JavaScript -->
+                </select>
+            </div>
+        </div>
+        
+        <!-- Assistant de Calcul par Étapes -->
+        <div class="wizard-container">
+            <!-- Indicateur de Progression -->
+            <div class="progress-indicator">
+                <div class="step" id="step-indicator-1">
+                    <div class="step-number">1</div>
+                    <div class="step-label" data-i18n="stepSalary">Salaire</div>
+                </div>
+                <div class="step" id="step-indicator-2">
+                    <div class="step-number">2</div>
+                    <div class="step-label" data-i18n="stepSituation">Situation</div>
+                </div>
+                <div class="step" id="step-indicator-3">
+                    <div class="step-number">3</div>
+                    <div class="step-label" data-i18n="stepCalculation">Calcul</div>
+                </div>
+                <div class="step" id="step-indicator-4">
+                    <div class="step-number">4</div>
+                    <div class="step-label" data-i18n="stepResults">Résultats</div>
+                </div>
+            </div>
+
+            <!-- Étape 1: Calcul du Gain Assuré -->
+            <div class="wizard-step active" id="step-1">
+                <div class="card wizard-card">
+                    <h2 data-i18n="step1Title">💰 Étape 1: Calcul du Gain Assuré</h2>
+                    <p class="step-description" data-i18n="step1Description">
+                        Pour calculer vos indemnités chômage, nous devons d'abord déterminer votre gain assuré mensuel.
+                        Celui-ci correspond à la moyenne de vos 12 derniers mois de salaire (incluant le 13ème salaire).
+                    </p>
+                    
+                    <div class="important-info">
+                        <h4 data-i18n="importantInfo">ℹ️ Information importante</h4>
+                        <p data-i18n="maxGainInfo">Le gain assuré maximum pris en compte par l'assurance chômage suisse est de CHF 12'350.- par mois. Tout montant supérieur sera automatiquement plafonné à cette valeur.</p>
+                    </div>
+                    
+                    <div class="input-method-selector">
+                        <h3 data-i18n="howCalculateGain">Comment souhaitez-vous calculer votre gain assuré ?</h3>
+                        <div class="method-options">
+                            <label class="method-option">
+                                <input type="radio" name="calculation-method" value="manual" checked>
+                                <div class="option-content">
+                                    <strong data-i18n="manualCalculation">Calcul manuel</strong>
+                                    <p data-i18n="manualDescription">Je vais saisir mes salaires mois par mois</p>
+                                </div>
+                            </label>
+                            <label class="method-option">
+                                <input type="radio" name="calculation-method" value="total">
+                                <div class="option-content">
+                                    <strong data-i18n="totalCalculation">Montant total</strong>
+                                    <p data-i18n="totalDescription">Je connais le total de mes 12 derniers mois</p>
+                                </div>
+                            </label>
+                            <label class="method-option">
+                                <input type="radio" name="calculation-method" value="average">
+                                <div class="option-content">
+                                    <strong data-i18n="averageCalculation">Salaire moyen</strong>
+                                    <p data-i18n="averageDescription">Je connais déjà mon gain assuré mensuel</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Méthode Manuelle -->
+                    <div id="manual-input" class="calculation-method active">
+                        <h4 data-i18n="monthlySalaries">Vos salaires des 12 derniers mois (en CHF)</h4>
+                        <div class="salary-grid">
+                            <div class="salary-input">
+                                <label data-i18n="month1">1er mois:</label>
+                                <input type="number" id="salary-1" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month2">2ème mois:</label>
+                                <input type="number" id="salary-2" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month3">3ème mois:</label>
+                                <input type="number" id="salary-3" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month4">4ème mois:</label>
+                                <input type="number" id="salary-4" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month5">5ème mois:</label>
+                                <input type="number" id="salary-5" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month6">6ème mois:</label>
+                                <input type="number" id="salary-6" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month7">7ème mois:</label>
+                                <input type="number" id="salary-7" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month8">8ème mois:</label>
+                                <input type="number" id="salary-8" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month9">9ème mois:</label>
+                                <input type="number" id="salary-9" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month10">10ème mois:</label>
+                                <input type="number" id="salary-10" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month11">11ème mois:</label>
+                                <input type="number" id="salary-11" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="salary-input">
+                                <label data-i18n="month12">12ème mois:</label>
+                                <input type="number" id="salary-12" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="thirteenth-salary">
+                            <label for="thirteenth-salary" data-i18n="thirteenthSalary">13ème salaire (si applicable):</label>
+                            <input type="number" id="thirteenth-salary" step="0.01" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <!-- Méthode Total -->
+                    <div id="total-input" class="calculation-method">
+                        <div class="parameter-group">
+                            <label for="total-12-months" data-i18n="total12Months">Total des 12 derniers mois (CHF):</label>
+                            <input type="number" id="total-12-months" step="0.01" placeholder="Montant total incluant le 13ème">
+                        </div>
+                    </div>
+
+                    <!-- Méthode Moyenne -->
+                    <div id="average-input" class="calculation-method">
+                        <div class="parameter-group">
+                            <label for="monthly-average" data-i18n="monthlyAverage">Gain assuré mensuel (CHF):</label>
+                            <input type="number" id="monthly-average" step="0.01" placeholder="Montant moyen mensuel">
+                        </div>
+                    </div>
+
+                    <div class="calculated-gain">
+                        <h4 data-i18n="calculatedGain">Gain assuré mensuel calculé:</h4>
+                        <div class="gain-result">
+                            <span id="calculated-gain-amount">CHF 0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="wizard-navigation">
+                        <button class="btn-next" onclick="nextStep()" data-i18n="continue">Continuer</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 2: Situation Personnelle -->
+            <div class="wizard-step" id="step-2">
+                <div class="card wizard-card">
+                    <h2 data-i18n="step2Title">👨‍👩‍👧‍👦 Étape 2: Votre Situation Personnelle</h2>
+                    <p class="step-description" data-i18n="step2Description">
+                        Ces informations déterminent le pourcentage d'indemnisation (70% ou 80%) et le délai d'attente.
+                    </p>
+
+                    <div class="question-group">
+                        <h3 data-i18n="childrenQuestion">Avez-vous des enfants de moins de 25 ans à charge ?</h3>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="has-children" value="yes">
+                                <span data-i18n="yes">Oui</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="has-children" value="no" checked>
+                                <span data-i18n="no">Non</span>
+                            </label>
+                        </div>
+                        <div id="children-count" class="sub-question" style="display: none;">
+                            <label for="num-children" data-i18n="howManyChildren">Combien d'enfants ?</label>
+                            <input type="number" id="num-children" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h3 data-i18n="disabilityQuestion">Touchez-vous une rente d'invalidité ?</h3>
+                        <p class="question-help" data-i18n="disabilityHelp">
+                            Rente AI, AA ou AM avec un taux d'invalidité d'au moins 40%
+                        </p>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="disability-pension" value="yes">
+                                <span data-i18n="yes">Oui</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="disability-pension" value="no" checked>
+                                <span data-i18n="no">Non</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h3 data-i18n="lossInsuranceQuestion">Avez-vous une assurance perte de gain ?</h3>
+                        <p class="question-help" data-i18n="lossInsuranceHelp">
+                            Si oui, vous pourrez déduire 3.75% sur demande écrite
+                        </p>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="loss-insurance" value="yes">
+                                <span data-i18n="yes">Oui</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="loss-insurance" value="no" checked>
+                                <span data-i18n="no">Non</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h3 data-i18n="firstMonthQuestion">Est-ce votre premier mois de chômage ?</h3>
+                        <p class="question-help" data-i18n="firstMonthHelp">
+                            Cela détermine s'il y a un délai d'attente
+                        </p>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="first-month" value="yes" checked>
+                                <span data-i18n="yes">Oui</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="first-month" value="no">
+                                <span data-i18n="no">Non</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="wizard-navigation">
+                        <button class="btn-prev" onclick="prevStep()" data-i18n="previous">Précédent</button>
+                        <button class="btn-next" onclick="nextStep()" data-i18n="continue">Continuer</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 3: Calcul et Paramètres -->
+            <div class="wizard-step" id="step-3">
+                <div class="card wizard-card">
+                    <h2 data-i18n="step3Title">🧮 Étape 3: Calcul et Paramètres</h2>
+                    
+                    <div class="calculated-parameters">
+                        <h3 data-i18n="calculatedParameters">Paramètres calculés</h3>
+                        <div class="parameter-result">
+                            <label data-i18n="compensationRate">Taux d'indemnisation:</label>
+                            <span id="compensation-rate">70%</span>
+                        </div>
+                        <div class="parameter-result">
+                            <label data-i18n="dailyAllowanceCalc">Indemnité journalière:</label>
+                            <span id="daily-allowance-calc">CHF 0.00</span>
+                        </div>
+                        <div class="parameter-result">
+                            <label data-i18n="waitingPeriod">Délai d'attente:</label>
+                            <span id="waiting-period">0 jours</span>
+                        </div>
+                    </div>
+
+                    <div class="calculation-parameters">
+                        <h3 data-i18n="calculationForMonth">Calcul pour ce mois</h3>
+                        <div class="parameter-group">
+                            <label for="controlled-days" data-i18n="controlledDaysMonth">Nombre de jours contrôlés ce mois:</label>
+                            <input type="number" id="controlled-days" value="22" min="1" max="31" step="1">
+                            <small data-i18n="controlledDaysHelp">Nombre de jours pour lesquels vous voulez calculer les indemnités</small>
+                        </div>
+                    </div>
+
+                    <div class="wizard-navigation">
+                        <button class="btn-prev" onclick="prevStep()" data-i18n="previous">Précédent</button>
+                        <button class="btn-calculate" onclick="calculateFinalResults()" data-i18n="calculateResults">Calculer les résultats</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 4: Résultats Détaillés -->
+            <div class="wizard-step" id="step-4">
+                <div class="card wizard-card results-final">
+                    <h2 data-i18n="step4Title">📊 Résultats de votre Calcul Chômage</h2>
+                    
+                    <div id="final-results">
+                        <!-- Les résultats seront générés par JavaScript -->
+                    </div>
+
+                    <div class="wizard-navigation">
+                        <button class="btn-prev" onclick="prevStep()" data-i18n="modifyParameters">Modifier les paramètres</button>
+                        <button class="btn-restart" onclick="restartWizard()" data-i18n="newCalculation">Nouveau calcul</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="calculator.js"></script>
+    <script>
+        // Inicializar sistema de idiomas quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeI18n();
+        });
+    </script>
+</body>
+</html>

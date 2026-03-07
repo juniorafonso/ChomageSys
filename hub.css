@@ -1,0 +1,103 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(145deg, #0f172a, #1e293b);
+    min-height: 100vh;
+    color: #0f172a;
+    padding: 20px;
+}
+
+.app-navbar {
+    max-width: 1000px;
+    margin: 0 auto 16px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #e2e8f0;
+    border: 1px solid rgba(226, 232, 240, 0.35);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.nav-link.active {
+    background: #0f766e;
+    border-color: #0f766e;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 0;
+}
+
+.header {
+    color: #f8fafc;
+    margin-bottom: 24px;
+}
+
+.header h1 {
+    margin: 0 0 8px;
+    font-size: 2rem;
+}
+
+.header p {
+    margin: 0;
+    color: #cbd5e1;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.tool-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.tool-card h2 {
+    margin: 0 0 10px;
+    font-size: 1.15rem;
+}
+
+.tool-card p {
+    margin: 0 0 16px;
+    color: #475569;
+}
+
+.tool-link {
+    display: inline-block;
+    text-decoration: none;
+    background: #0f766e;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.tool-link:hover {
+    background: #0b5f59;
+}

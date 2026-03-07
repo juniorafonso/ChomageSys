@@ -1,0 +1,1346 @@
+/* Reset e configurações base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+/* Paleta de cores inspirada no brasão de Genebra */
+:root {
+    --geneva-black: #1a1a1a;
+    --geneva-white: #ffffff;
+    --geneva-yellow: #ffd700;
+    --geneva-red: #dc143c;
+    --geneva-dark-gray: #2c2c2c;
+    --geneva-light-gray: #f5f5f5;
+    --geneva-shadow: rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--geneva-dark-gray) 0%, var(--geneva-black) 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--geneva-black);
+}
+
+.app-navbar {
+    max-width: 1000px;
+    margin: 0 auto 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--geneva-white);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link:hover {
+    border-color: var(--geneva-yellow);
+    color: var(--geneva-yellow);
+}
+
+.nav-link.active {
+    background: var(--geneva-red);
+    border-color: var(--geneva-red);
+    color: var(--geneva-white);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: var(--geneva-white);
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px var(--geneva-shadow);
+    border-bottom: 3px solid var(--geneva-yellow);
+    padding-bottom: 15px;
+}
+
+.card {
+    background: var(--geneva-white);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px var(--geneva-shadow);
+    transition: transform 0.3s ease;
+    border: 2px solid var(--geneva-light-gray);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--geneva-yellow);
+}
+
+h2 {
+    color: var(--geneva-black);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--geneva-red);
+}
+
+.parameters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.parameter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+input[type="number"] {
+    padding: 12px;
+    border: 2px solid var(--geneva-light-gray);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: var(--geneva-white);
+    color: var(--geneva-black);
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--geneva-yellow);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+.calculation-card {
+    background: linear-gradient(135deg, var(--geneva-black), var(--geneva-dark-gray));
+    color: var(--geneva-white);
+    border: 2px solid var(--geneva-yellow);
+}
+
+.calculation-card h2 {
+    color: white;
+    border-bottom-color: rgba(255,255,255,0.3);
+}
+
+.calculation-card label {
+    color: rgba(255,255,255,0.9);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group input {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 1.1rem;
+}
+
+.input-group input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.input-group input:focus {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.6);
+}
+
+button {
+    background: linear-gradient(135deg, var(--geneva-red), #b71c1c);
+    color: var(--geneva-white);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid transparent;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+    border-color: var(--geneva-yellow);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.results-card {
+    background: linear-gradient(135deg, var(--geneva-black), var(--geneva-dark-gray));
+    color: var(--geneva-white);
+    border: 2px solid var(--geneva-yellow);
+}
+
+.results-card h2 {
+    color: var(--geneva-white);
+    border-bottom-color: var(--geneva-yellow);
+}
+
+.calculation-table {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--geneva-white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--geneva-light-gray);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--geneva-light-gray);
+    color: var(--geneva-black);
+}
+
+th {
+    background: var(--geneva-black);
+    color: var(--geneva-white);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    border-bottom: 2px solid var(--geneva-yellow);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:nth-child(even) {
+    background-color: var(--geneva-light-gray);
+}
+
+tr:hover {
+    background-color: rgba(255, 215, 0, 0.1);
+}
+
+.total-row {
+    background: var(--geneva-yellow) !important;
+    color: var(--geneva-black);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.net-result {
+    background: var(--geneva-red) !important;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--geneva-white);
+}
+
+.currency {
+    font-family: 'Courier New', monospace;
+}
+
+/* Seletor de idioma */
+.language-selector {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.language-selector label {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.language-selector select {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+}
+
+.language-selector select:hover {
+    background: white;
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-1px);
+}
+
+.language-selector select:focus {
+    outline: none;
+    background: white;
+    border-color: var(--geneva-yellow);
+    box-shadow: 0 0 0 3px var(--geneva-yellow-alpha);
+}
+
+.language-selector select option {
+    padding: 8px;
+    font-weight: 500;
+}
+
+/* Header com título e seletor de idioma */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-container h1 {
+    margin: 0;
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Seletor de idioma no header */
+.header-language-selector {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-width: 200px;
+}
+
+.header-language-selector label {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.header-language-selector select {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.header-language-selector select:hover {
+    background: white;
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.header-language-selector select:focus {
+    outline: none;
+    background: white;
+    border-color: var(--geneva-yellow);
+    box-shadow: 0 0 0 2px var(--geneva-yellow-alpha);
+}
+
+/* Layout de duas colunas */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+/* Layout de três colunas atualizado */
+.main-layout-three-columns {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-wide-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+/* Card de cálculo destacado na coluna esquerda */
+.calculation-card-main {
+    background: linear-gradient(135deg, var(--geneva-black), var(--geneva-dark-gray));
+    color: var(--geneva-white);
+    border: 3px solid var(--geneva-yellow);
+    box-shadow: 0 15px 40px var(--geneva-shadow);
+    order: -1; /* Força o card de cálculo a aparecer primeiro */
+}
+
+.calculation-card-main h2 {
+    color: white;
+    border-bottom-color: rgba(255,255,255,0.3);
+}
+
+.calculation-card-main label {
+    color: rgba(255,255,255,0.9);
+}
+
+.calculation-card-main input {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 1.1rem;
+}
+
+.calculation-card-main input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.calculation-card-main input:focus {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.6);
+}
+
+.calculation-card-main button {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    margin-top: 15px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Resultados ocupando largura total da coluna direita */
+.results-wide {
+    width: 100%;
+}
+
+.results-wide .calculation-table table {
+    width: 100%;
+    min-width: 600px;
+}
+
+/* Placeholder adaptado para largura total */
+.results-placeholder-wide {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px dashed #adb5bd;
+    color: #6c757d;
+    text-align: center;
+    padding: 60px 40px;
+    border-radius: 15px;
+    font-style: italic;
+    width: 100%;
+}
+
+.results-placeholder-wide h3 {
+    margin-bottom: 15px;
+    color: #495057;
+    font-size: 1.3rem;
+}
+
+.results-placeholder-wide p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Ajustes para cards no layout de colunas */
+.main-layout .card {
+    margin-bottom: 0;
+}
+
+/* Card de cálculo com destaque */
+.calculation-card-highlight {
+    background: linear-gradient(135deg, var(--geneva-black), var(--geneva-dark-gray));
+    color: var(--geneva-white);
+    border: 3px solid var(--geneva-yellow);
+    box-shadow: 0 15px 40px var(--geneva-shadow);
+}
+
+.calculation-card-highlight h2 {
+    color: var(--geneva-white);
+    border-bottom-color: rgba(255,255,255,0.3);
+}
+
+.calculation-card-highlight label {
+    color: rgba(255,255,255,0.9);
+}
+
+.calculation-card-highlight input {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 1.1rem;
+}
+
+.calculation-card-highlight input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.calculation-card-highlight input:focus {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.6);
+}
+
+.calculation-card-highlight button {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    margin-top: 15px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Placeholder para resultados quando não há cálculo */
+.results-placeholder {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px dashed #adb5bd;
+    color: #6c757d;
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 15px;
+    font-style: italic;
+}
+
+.results-placeholder h3 {
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+.results-placeholder p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Estilos para o Sistema Wizard */
+.wizard-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Indicador de Progresso */
+.progress-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 60%;
+    right: -40%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    z-index: 1;
+}
+
+.step.completed:not(:last-child)::after {
+    background: var(--geneva-yellow);
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--geneva-light-gray);
+    color: var(--geneva-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+    border: 2px solid var(--geneva-white);
+}
+
+.step.active .step-number {
+    background: var(--geneva-yellow);
+    color: var(--geneva-black);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+    border-color: var(--geneva-red);
+}
+
+.step.completed .step-number {
+    background: var(--geneva-red);
+    color: var(--geneva-white);
+    border-color: var(--geneva-yellow);
+}
+
+.step-label {
+    color: var(--geneva-white);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.step.active .step-label {
+    color: white;
+    font-weight: 600;
+}
+
+/* Etapas do Wizard */
+.wizard-step {
+    display: none;
+}
+
+.wizard-step.active {
+    display: block;
+    animation: slideIn 0.5s ease-out;
+}
+
+.wizard-card {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.step-description {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid var(--geneva-yellow);
+}
+
+/* Seletor de Método de Cálculo */
+.input-method-selector h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.method-options {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.method-option {
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.method-option:hover {
+    border-color: var(--geneva-yellow);
+    background: #fffdf0;
+}
+
+.method-option input[type="radio"] {
+    margin-right: 15px;
+    transform: scale(1.2);
+}
+
+.method-option input[type="radio"]:checked + .option-content {
+    color: var(--geneva-black);
+}
+
+.method-option:has(input:checked) {
+    border-color: var(--geneva-yellow);
+    background: #fffdf0;
+    box-shadow: 0 5px 15px var(--geneva-yellow-alpha);
+}
+
+.option-content strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.option-content p {
+    color: #666;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Métodos de Cálculo */
+.calculation-method {
+    display: none;
+    margin-top: 30px;
+}
+
+.calculation-method.active {
+    display: block;
+}
+
+/* Grid de Salários */
+.salary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.salary-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.salary-input label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.salary-input input {
+    padding: 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.salary-input input:focus {
+    outline: none;
+    border-color: var(--geneva-yellow);
+    box-shadow: 0 0 0 3px var(--geneva-yellow-alpha);
+}
+
+.thirteenth-salary {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff3cd;
+    border-radius: 10px;
+    border: 1px solid #ffeaa7;
+}
+
+.thirteenth-salary label {
+    font-weight: 600;
+    color: #856404;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.thirteenth-salary input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ffeaa7;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Resultado do Gain Calculado */
+.calculated-gain {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: var(--geneva-white);
+    color: var(--geneva-black);
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid var(--geneva-yellow);
+    box-shadow: 0 5px 15px var(--geneva-shadow);
+}
+
+.calculated-gain h4 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--geneva-black);
+}
+
+.gain-result {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    color: var(--geneva-black);
+}
+
+/* Navegação do Wizard */
+.wizard-navigation {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Grupos de Perguntas */
+.question-group {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border-left: 4px solid var(--geneva-yellow);
+}
+
+.question-group h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.question-help {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.radio-group label:hover {
+    border-color: var(--geneva-yellow);
+    background: #fffdf0;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.radio-group label:has(input:checked) {
+    border-color: var(--geneva-yellow);
+    background: #fffdf0;
+    color: var(--geneva-black);
+    font-weight: 600;
+}
+
+.sub-question {
+    margin-top: 15px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e1e5e9;
+}
+
+.sub-question label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.sub-question input {
+    width: 100px;
+    padding: 8px 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Parâmetros Calculados */
+.calculated-parameters {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: var(--geneva-white);
+    color: var(--geneva-black);
+    border: 2px solid var(--geneva-yellow);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--geneva-shadow);
+}
+
+.calculated-parameters h3 {
+    color: var(--geneva-black);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--geneva-yellow);
+    padding-bottom: 10px;
+}
+
+.parameter-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.parameter-result:last-child {
+    border-bottom: none;
+}
+
+.parameter-result label {
+    font-weight: 500;
+    color: var(--geneva-black);
+    margin: 0;
+}
+
+.parameter-result span {
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-family: 'Courier New', monospace;
+    color: var(--geneva-black);
+}
+
+.advanced-parameters {
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border-left: 4px solid var(--geneva-yellow);
+}
+
+.advanced-parameters h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+/* Resultados Finais */
+.results-final {
+    background: var(--geneva-white);
+    color: var(--geneva-black);
+    border: 2px solid var(--geneva-yellow);
+}
+
+.results-final h2 {
+    color: var(--geneva-black);
+    border-bottom-color: var(--geneva-yellow);
+}
+
+/* Estilos para Resultados Finais */
+.results-summary {
+    margin-bottom: 30px;
+}
+
+.main-result {
+    background: linear-gradient(135deg, var(--geneva-yellow), var(--geneva-red));
+    color: var(--geneva-black);
+    text-align: center;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.main-result h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    border: none;
+}
+
+.main-amount {
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    margin: 15px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.main-result p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-left: 4px solid var(--geneva-yellow);
+}
+
+.summary-card h4 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    border: none;
+}
+
+.summary-card .amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--geneva-black);
+    font-family: 'Courier New', monospace;
+}
+
+.detailed-calculation {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.detailed-calculation h3 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--geneva-yellow);
+    padding-bottom: 10px;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.results-table th {
+    background: var(--geneva-yellow);
+    color: var(--geneva-black);
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.results-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.results-table tr:hover {
+    background: #f8f9fa;
+}
+
+.results-table .subtotal {
+    background: #fff3cd;
+    font-weight: 600;
+    color: #856404;
+}
+
+.results-table .deduction {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.results-table .bonus {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.results-table .total {
+    background: var(--geneva-yellow);
+    color: var(--geneva-black);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.results-table .total td {
+    border: none;
+}
+
+.results-table .currency {
+    font-family: 'Courier New', monospace;
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Avisos importantes */
+.waiting-period-notice,
+.loss-insurance-notice,
+.lpp-calculation-details {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.waiting-period-notice h4,
+.loss-insurance-notice h4,
+.lpp-calculation-details h4 {
+    margin-bottom: 10px;
+    color: #856404;
+    border: none;
+}
+
+.waiting-period-notice p,
+.loss-insurance-notice p,
+.lpp-calculation-details p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.lpp-calculation-details {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+}
+
+.lpp-calculation-details h4 {
+    color: #856404;
+}
+
+.lpp-calculation-details small {
+    display: block;
+    margin-top: 10px;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Aviso de Limite Máximo do Gain Assuré */
+.max-limit-warning {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 10px;
+    color: #856404;
+    display: none;
+}
+
+.max-limit-warning h4 {
+    color: #856404;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    border: none;
+}
+
+.max-limit-warning p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.max-limit-warning p:last-child {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.max-limit-warning strong {
+    color: #721c24;
+}
+
+/* Caixa de Informação Importante */
+.important-info {
+    background: #fff3cd;
+    border: 2px solid #ffeaa7;
+    border-left: 4px solid var(--geneva-yellow);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0 30px 0;
+}
+
+.important-info h4 {
+    color: #856404;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border: none;
+}
+
+.important-info p {
+    color: #856404;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.important-info strong {
+    color: #721c24;
+    font-weight: 700;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .right-column {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .parameters-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+    
+    th, td {
+        padding: 10px;
+    }
+    
+    .language-selector {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .language-selector select {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .main-layout {
+        gap: 15px;
+    }
+    
+    .left-column,
+    .right-column {
+        gap: 15px;
+    }
+}
+
+/* Responsividade para header */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .header-container h1 {
+        min-width: auto;
+        text-align: center;
+    }
+    
+    .header-language-selector {
+        min-width: auto;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Responsividade para três colunas */
+@media (max-width: 1200px) {
+    .main-layout-three-columns {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .right-wide-column {
+        position: static;
+    }
+    
+    .results-wide .calculation-table table {
+        min-width: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .results-placeholder-wide {
+        padding: 40px 20px;
+    }
+    
+    .results-placeholder-wide h3 {
+        font-size: 1.1rem;
+    }
+    
+    .results-placeholder-wide p {
+        font-size: 1rem;
+    }
+}
+
+/* Animações */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.results-card {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* Efeitos de hover para inputs */
+.parameter-group:hover input {
+    border-color: var(--geneva-yellow);
+}
+
+/* Estilo para valores destacados */
+.highlight {
+    background: rgba(255, 255, 0, 0.2);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
