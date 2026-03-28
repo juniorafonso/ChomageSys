@@ -478,7 +478,7 @@ class ChomageWizard {
         
         // Dedução assurance perte de gain (opcional)
         const lossInsuranceDeduction = this.data.hasLossInsurance ? 
-            this.data.gainAssured * (this.data.compensationRate / 100) * 0.0375 : 0;
+            this.data.gainAssured * (this.data.compensationRate / 100) * 0.036 : 0;
 
         const totalDeductions = avsDeduction + laaDeduction + lppDeduction + lossInsuranceDeduction;
         const netMonthlyBenefit = monthlyGrossBenefit - totalDeductions;
@@ -562,8 +562,8 @@ class ChomageWizard {
                         </tr>
                         ${this.data.hasLossInsurance ? `
                         <tr class="deduction">
-                            <td>Ass. perte de gain (3.75%)</td>
-                            <td>${this.formatCurrency(this.data.gainAssured)} × ${this.data.compensationRate}% × 3.75%</td>
+                            <td>Ass. perte de gain (3.6%)</td>
+                            <td>${this.formatCurrency(this.data.gainAssured)} × ${this.data.compensationRate}% × 3.6%</td>
                             <td class="currency">-${this.formatCurrency(lossInsuranceDeduction)}</td>
                         </tr>
                         ` : ''}

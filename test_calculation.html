@@ -42,7 +42,7 @@
             const expectedDailyAllowance = (6000 * 0.70) / 21.7;
             const effectiveDays = 22 - 5; // 17 jours
             const expectedGrossBenefit = expectedDailyAllowance * effectiveDays;
-            const expectedLossInsurance = 6000 * 0.80 * 0.0375;
+            const expectedLossInsurance = 6000 * 0.80 * 0.036;
             
             results.push({
                 name: "Calcul indemnité journalière",
@@ -58,8 +58,8 @@
             
             results.push({
                 name: "Calcul ass. perte de gain",
-                passed: Math.abs(expectedLossInsurance - (6000 * 0.80 * 0.0375)) < 0.01,
-                details: `CHF 6000 × 80% × 3.75% = ${expectedLossInsurance.toFixed(2)}`
+                passed: Math.abs(expectedLossInsurance - (6000 * 0.80 * 0.036)) < 0.01,
+                details: `CHF 6000 × 80% × 3.6% = ${expectedLossInsurance.toFixed(2)}`
             });
             
             // Test 3: Allocation enfants (jours complets)

@@ -480,16 +480,16 @@ class ChomageWizard {
         const effectiveDays = Math.max(0, this.data.controlledDays - this.data.waitingPeriod);
         const monthlyGrossBenefit = this.roundToSwissCents(grossDailyBenefit * effectiveDays);
         
-        // Deduções (todas arredondadas para 0.05)
-        const avsDeduction = this.roundToSwissCents(monthlyGrossBenefit * 0.053); // AVS/AI/APG 5.3%
-        const laaDeduction = this.roundToSwissCents(monthlyGrossBenefit * 0.0247); // LAA 2.47%
+        // Deduções (arredondadas para 0.01)
+        const avsDeduction = this.roundToCents(monthlyGrossBenefit * 0.053); // AVS/AI/APG 5.3%
+        const laaDeduction = this.roundToCents(monthlyGrossBenefit * 0.0247); // LAA 2.47%
         
         // Calcular dias efetivos para LPP (mesmo que effectiveDays)
         const effectiveDaysForLPP = effectiveDays;
         
         // Calcul LPP correct selon la réglementation suisse
         const lppDetails = this.getLPPCalculationDetails(grossDailyBenefit, effectiveDaysForLPP);
-        const lppDeduction = this.roundToSwissCents(lppDetails.lppDeduction);
+        const lppDeduction = this.roundToCents(lppDetails.lppDeduction);
         
         // Dedução assurance perte de gain (opcional) - sempre 80% segundo regulamento
         // LÓGICA CORRETA: Se JÁ TEM APG privada = pode deduzir, Se NÃO TEM = obrigatório pagar
@@ -498,17 +498,17 @@ class ChomageWizard {
         // Se TEM APG privada (yes) = pode deduzir (não paga)
         // Se NÃO TEM APG privada (no) = deve pagar obrigatoriamente  
         const lossInsuranceDeduction = !isLossInsuranceSelected ? 
-            this.roundToSwissCents(this.data.gainAssured * 0.80 * 0.0375) : 0;   // Só paga se NÃO tem APG privada
+            this.roundToCents(this.data.gainAssured * 0.80 * 0.036) : 0;   // Só paga se NÃO tem APG privada
 
-        const totalDeductions = this.roundToSwissCents(avsDeduction + laaDeduction + lppDeduction + lossInsuranceDeduction);
-        const netMonthlyBenefit = this.roundToSwissCents(monthlyGrossBenefit - totalDeductions);
+        const totalDeductions = this.roundToCents(avsDeduction + laaDeduction + lppDeduction + lossInsuranceDeduction);
+        const netMonthlyBenefit = this.roundToCents(monthlyGrossBenefit - totalDeductions);
         
         // Allocations enfants: usar constantes fixas
         // Note: on prend toujours la totalité des jours controlés du mois (pas diminués du délai d'attente)
         const childAllowances = this.data.hasChildren ? 
             this.roundToSwissCents(this.data.numChildren * (this.constants.MONTHLY_CHILD_ALLOWANCE / this.constants.AVERAGE_WORK_DAYS) * this.data.controlledDays) : 0;
             
-        const totalNetIncome = this.roundToSwissCents(netMonthlyBenefit + childAllowances);
+        const totalNetIncome = this.roundToCents(netMonthlyBenefit + childAllowances);
 
         // Générer HTML des résultats
         resultsContainer.innerHTML = `
@@ -581,8 +581,8 @@ class ChomageWizard {
                             <td class="currency">-${this.formatCurrency(lppDeduction)}</td>
                         </tr>
                         <tr class="deduction">
-                            <td>Ass. perte de gain (PCM) (3.75%)</td>
-                            <td>${!isLossInsuranceSelected ? `${this.formatCurrency(this.data.gainAssured)} × 80% × 3.75% (obligatoire)` : `Exempté (assurance privée)`}</td>
+                            <td>Ass. perte de gain (PCM) (3.6%)</td>
+                            <td>${!isLossInsuranceSelected ? `${this.formatCurrency(this.data.gainAssured)} × 80% × 3.6% (obligatoire)` : `Exempté (assurance privée)`}</td>
                             <td class="currency">-${this.formatCurrency(lossInsuranceDeduction)}</td>
                         </tr>
                         <tr class="subtotal">
@@ -679,13 +679,17 @@ class ChomageWizard {
     }
 
     formatCurrency(amount) {
-        // Arredondar para 0.05 centimes (regra suíça)
-        const roundedAmount = Math.round(amount * 20) / 20;
+        const roundedAmount = this.roundToCents(amount);
         return new Intl.NumberFormat('fr-CH', {
             style: 'currency',
             currency: 'CHF',
             minimumFractionDigits: 2
         }).format(roundedAmount);
+    }
+
+    // Função auxiliar para arredondar valores para 0.01 (centimes)
+    roundToCents(amount) {
+        return Math.round(amount * 100) / 100;
     }
 
     // Função auxiliar para arredondar valores para 0.05 centimes

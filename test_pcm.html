@@ -53,8 +53,8 @@
                 
                 // Step 6: Check PCM calculation values
                 html += '<div class="test-step">Step 6: Checking PCM calculation components</div>';
-                const expectedPCM = wizard.data.gainAssured * 0.80 * 0.0375;
-                html += `<div class="result">Expected PCM: CHF ${wizard.data.gainAssured} × 80% × 3.75% = CHF ${expectedPCM.toFixed(2)}</div>`;
+                const expectedPCM = wizard.data.gainAssured * 0.80 * 0.036;
+                html += `<div class="result">Expected PCM: CHF ${wizard.data.gainAssured} × 80% × 3.6% = CHF ${expectedPCM.toFixed(2)}</div>`;
                 html += `<div class="result">hasLossInsurance: ${wizard.data.hasLossInsurance}</div>`;
                 
                 // Step 7: Generate final results
